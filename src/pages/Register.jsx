@@ -20,25 +20,31 @@ export const Register = () => {
       });
   };
   return (
-    <div className="App">
-      <div className="input-group mb-3">
-        <input
-          ref={userName}
-          type="text"
-          className="form-control"
-          placeholder="username"
-          aria-label="username"
-          aria-describedby="basic-addon2"
-        />
-        <div className="input-group-append">
-          <button
-            onClick={handleSubmit}
-            className="btn btn-outline-secondary"
-            type="button"
-          >
-            Button
-          </button>
-        </div>
+    <div
+      className="App d-flex justify-content-center"
+      style={{ marginTop: "200px" }}
+    >
+      <div style={{ width: "400px" }}>
+        <h1>please login</h1>
+        <div className="input-group mb-3 d-flex justify-content center">
+          <input
+            ref={userName}
+            type="text"
+            className="form-control"
+            placeholder="username"
+            aria-label="username"
+            aria-describedby="basic-addon2"
+          />
+          <div className="input-group-append">
+            <button
+              onClick={handleSubmit}
+              className="btn btn-outline-secondary"
+              type="button"
+            >
+              Button
+            </button>
+          </div>
+        </div>{" "}
       </div>
     </div>
   );

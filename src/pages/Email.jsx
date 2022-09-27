@@ -1,15 +1,18 @@
-import React, { useRef } from "react";
+import React, { Fragment, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./email.css";
 import axios from "axios";
-
+var refreshVar = 0;
 export const Email = () => {
   const title = useRef();
   const message = useRef();
   const receiver = useRef();
   const { name } = useParams();
+  const [messages, setMessages] = React.useState([]);
+  const refreshTime = 2000;
 
   const handleLogout = () => {
+    setMessages([]);
     window.location.href = "/";
   };
   const handleSend = async () => {
@@ -28,6 +31,30 @@ export const Email = () => {
         alert("something went wrong!!");
       });
   };
+
+  async function getMessages() {
+    await axios
+      .get(`http://localhost:5000/user/messages/`, {
+        params: {
+          receiver: name,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setMessages(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("something went wrong!!");
+      });
+  }
+
+  useEffect(() => {
+    const comInterval = setInterval(getMessages, refreshTime); //This will refresh the data at regularIntervals of refreshTime
+    return () => clearInterval(comInterval);
+  }, [refreshVar]);
+
   return (
     <>
       <div className="App">
@@ -84,12 +111,21 @@ export const Email = () => {
               </button>
             </div>
           </form>
-          {}
-          {/* <div>
-            <h1>From: {user}</h1>
-            <h2>Title: {title}</h2>
-            <h3>content: {message}</h3>
-          </div> */}
+          <div>
+            {messages.length > 0 ? (
+              <div>
+                {messages.map((message, index) => {
+                  return (
+                    <div key={index}>
+                      <h1>From: {message?.author}</h1>
+                      <h2>Title: {message?.title}</h2>
+                      <h3>content: {message?.content}</h3>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : null}
+          </div>
         </main>
       </div>
     </>
