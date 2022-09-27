@@ -7,7 +7,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Register />} />
-      <Route path="/email" element={<Email />} />
+      <Route path="/email/:name" element={<Email />} />
     </Routes>
   );
 }

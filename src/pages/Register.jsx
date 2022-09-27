@@ -2,13 +2,17 @@ import React, { useRef } from "react";
 import axios from "axios";
 export const Register = () => {
   const userName = useRef();
+
   const handleSubmit = async () => {
+    console.log(userName.current.value);
     await axios
-      .post("http://localhost:5000/register", {
+      .post("http://localhost:5000/user/login", {
         userName: userName.current.value,
       })
       .then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          window.location.href = `/email/${userName.current.value}`;
+        }
       })
       .catch((err) => {
         console.log(err);

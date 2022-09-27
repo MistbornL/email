@@ -1,22 +1,40 @@
 import React, { useRef } from "react";
+import { useParams } from "react-router-dom";
 import "./email.css";
+import axios from "axios";
 
 export const Email = () => {
-  const user = localStorage.getItem("userName");
   const title = useRef();
   const message = useRef();
+  const receiver = useRef();
+  const { name } = useParams();
+
   const handleLogout = () => {
-    localStorage.removeItem("userName");
     window.location.href = "/";
   };
-  const handleSend = () => {};
+  const handleSend = async () => {
+    await axios
+      .post("http://localhost:5000/user/sendMessage", {
+        title: title.current.value,
+        content: message.current.value,
+        author: name,
+        receiver: receiver.current.value,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("something went wrong!!");
+      });
+  };
   return (
     <>
       <div className="App">
         <header>
           <div className="head">
             <h1 className="d-flex justify-content-center align-items-center">
-              Welcome {user}
+              Welcome {name}
             </h1>
             <h2 style={{ cursor: "pointer" }} onClick={handleLogout}>
               logout
@@ -28,6 +46,7 @@ export const Email = () => {
             <div className="form-group ">
               <label htmlFor="inputReceiver">Receiver</label>
               <input
+                ref={receiver}
                 type="text"
                 className="form-control"
                 id="inputReceiver"
@@ -65,11 +84,12 @@ export const Email = () => {
               </button>
             </div>
           </form>
-          <div>
+          {}
+          {/* <div>
             <h1>From: {user}</h1>
             <h2>Title: {title}</h2>
             <h3>content: {message}</h3>
-          </div>
+          </div> */}
         </main>
       </div>
     </>
