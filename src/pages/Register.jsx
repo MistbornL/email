@@ -1,9 +1,19 @@
 import React, { useRef } from "react";
-
+import axios from "axios";
 export const Register = () => {
   const userName = useRef();
-  const handleUserName = () => {
-    localStorage.setItem("userName", userName.current.value);
+  const handleSubmit = async () => {
+    await axios
+      .post("http://localhost:5000/register", {
+        userName: userName.current.value,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("something went wrong!!");
+      });
   };
   return (
     <div className="App">
@@ -18,7 +28,7 @@ export const Register = () => {
         />
         <div className="input-group-append">
           <button
-            onClick={handleUserName}
+            onClick={handleSubmit}
             className="btn btn-outline-secondary"
             type="button"
           >
