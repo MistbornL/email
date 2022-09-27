@@ -1,20 +1,23 @@
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./email.css";
 import axios from "axios";
+import { TypeAhead } from "../compnents/TypeAhead";
 var refreshVar = 0;
 export const Email = () => {
   const title = useRef();
   const message = useRef();
   const receiver = useRef();
   const { name } = useParams();
-  const [messages, setMessages] = React.useState([]);
+  const [messages, setMessages] = useState([]);
+  const [typeAhead, setTypeAhead] = useState([]);
   const refreshTime = 2000;
 
   const handleLogout = () => {
     setMessages([]);
     window.location.href = "/";
   };
+
   const handleSend = async () => {
     await axios
       .post("http://localhost:5000/user/sendMessage", {
@@ -50,6 +53,20 @@ export const Email = () => {
       });
   }
 
+  const handleAhead = async () => {
+    await axios
+      .get(`http://localhost:5000/users/`, {})
+      .then((res) => {
+        if (res.status === 200) {
+          setTypeAhead(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("something went wrong!!");
+      });
+  };
+
   useEffect(() => {
     const comInterval = setInterval(getMessages, refreshTime); //This will refresh the data at regularIntervals of refreshTime
     return () => clearInterval(comInterval);
@@ -72,13 +89,19 @@ export const Email = () => {
           <form className="d-flex justify-content-center align-items-center flex-column">
             <div className="form-group ">
               <label htmlFor="inputReceiver">Receiver</label>
+
               <input
+                onChange={handleAhead}
                 ref={receiver}
                 type="text"
+                style={{ position: "relative", zIndex: "1" }}
                 className="form-control"
                 id="inputReceiver"
                 placeholder="Enter Name"
               />
+              {typeAhead.map((item) => {
+                return <TypeAhead item={item} />;
+              })}
             </div>
             <div className="form-group">
               <label htmlFor="title">Title</label>
