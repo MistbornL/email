@@ -11,6 +11,8 @@ export const Email = () => {
   const { name } = useParams();
   const [messages, setMessages] = useState([]);
   const [typeAhead, setTypeAhead] = useState([]);
+  const [hide, setHide] = useState(true);
+
   const refreshTime = 2000;
 
   const handleLogout = () => {
@@ -33,6 +35,8 @@ export const Email = () => {
         console.log(err);
         alert("something went wrong!!");
       });
+    title.current.value = "";
+    message.current.value = "";
   };
 
   async function getMessages() {
@@ -65,6 +69,7 @@ export const Email = () => {
         console.log(err);
         alert("something went wrong!!");
       });
+    setHide(true);
   };
 
   useEffect(() => {
@@ -99,8 +104,21 @@ export const Email = () => {
                 id="inputReceiver"
                 placeholder="Enter Name"
               />
+
               {typeAhead.map((item) => {
-                return <TypeAhead item={item} />;
+                if (hide === true) {
+                  return (
+                    <TypeAhead
+                      receiver={receiver}
+                      setHide={setHide}
+                      item={item}
+                      onClickOutside={() => {
+                        setHide(false);
+                      }}
+                    />
+                  );
+                }
+                return null;
               })}
             </div>
             <div className="form-group">

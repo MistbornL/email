@@ -41,7 +41,7 @@ export const Register = () => {
               className="btn btn-outline-secondary"
               type="button"
             >
-              Button
+              Login
             </button>
           </div>
         </div>{" "}
