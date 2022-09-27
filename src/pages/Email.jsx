@@ -1,13 +1,26 @@
 import React from "react";
+import "./email.css";
 
 export const Email = () => {
   const user = localStorage.getItem("userName");
+  const handleLogout = () => {
+    localStorage.removeItem("userName");
+    window.location.href = "/";
+  };
   return (
     <>
       <div className="App">
-        <h1 className="d-flex justify-content-center align-items-center">
-          Welcome {user}
-        </h1>
+        <header>
+          <div className="head">
+            <h1 className="d-flex justify-content-center align-items-center">
+              Welcome {user}
+            </h1>
+            <h2 style={{ cursor: "pointer" }} onClick={handleLogout}>
+              logout
+            </h2>
+          </div>
+        </header>
+
         <form className="d-flex justify-content-center align-items-center flex-column">
           <div className="form-group ">
             <label for="inputReceiver">Receiver</label>
@@ -29,18 +42,19 @@ export const Email = () => {
           </div>
           <div className="form-group">
             <label for="Text">Text</label>
-            <input
-              style={{ height: "100px" }}
+            <textarea
+              style={{ resize: "none", height: "100px" }}
               type="text"
               className="form-control"
               id="Text"
               placeholder="text"
             />
           </div>
-
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
+          <div style={{ display: "flex" }}>
+            <button type="button" className="btn btn-primary">
+              Send
+            </button>
+          </div>
         </form>
       </div>
     </>
