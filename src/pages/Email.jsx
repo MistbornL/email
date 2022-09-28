@@ -22,7 +22,7 @@ export const Email = () => {
 
   const handleSend = async () => {
     await axios
-      .post("http://localhost:5000/user/sendMessage", {
+      .post("https://email-server-mistborn.herokuapp.com/user/sendMessage", {
         title: title.current.value,
         content: message.current.value,
         author: name,
@@ -41,7 +41,7 @@ export const Email = () => {
 
   async function getMessages() {
     await axios
-      .get(`http://localhost:5000/user/messages/`, {
+      .get(`https://email-server-mistborn.herokuapp.com/user/messages/`, {
         params: {
           receiver: name,
         },
@@ -59,7 +59,7 @@ export const Email = () => {
 
   const handleAhead = async () => {
     await axios
-      .get(`http://localhost:5000/users/`, {})
+      .get(`https://email-server-mistborn.herokuapp.com/users/`, {})
       .then((res) => {
         if (res.status === 200) {
           setTypeAhead(res.data);

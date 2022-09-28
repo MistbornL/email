@@ -6,7 +6,7 @@ export const Register = () => {
   const handleSubmit = async () => {
     console.log(userName.current.value);
     await axios
-      .post("http://localhost:5000/user/login", {
+      .post("https://email-server-mistborn.herokuapp.com/user/login", {
         userName: userName.current.value,
       })
       .then((res) => {
@@ -44,7 +44,7 @@ export const Register = () => {
               Login
             </button>
           </div>
-        </div>{" "}
+        </div>
       </div>
     </div>
   );
