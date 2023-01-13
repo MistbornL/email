@@ -22,7 +22,7 @@ export const Email = () => {
 
   const handleSend = async () => {
     await axios
-      .post("https://email-server-mistborn.herokuapp.com/user/sendMessage", {
+      .post("https://email-server-navy.vercel.app//user/sendMessage", {
         title: title.current.value,
         content: message.current.value,
         author: name,
@@ -41,7 +41,7 @@ export const Email = () => {
 
   async function getMessages() {
     await axios
-      .get(`https://email-server-mistborn.herokuapp.com/user/messages/`, {
+      .get(`https://email-server-navy.vercel.app//user/messages/`, {
         params: {
           receiver: name,
         },
@@ -59,7 +59,7 @@ export const Email = () => {
 
   const handleAhead = async () => {
     await axios
-      .get(`https://email-server-mistborn.herokuapp.com/users/`, {})
+      .get(`https://email-server-navy.vercel.app//users/`, {})
       .then((res) => {
         if (res.status === 200) {
           setTypeAhead(res.data);
