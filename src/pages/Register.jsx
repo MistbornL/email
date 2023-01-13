@@ -6,7 +6,7 @@ export const Register = () => {
   const handleSubmit = async () => {
     console.log(userName.current.value);
     await axios
-      .post("https://email-server-navy.vercel.app//user/login", {
+      .post("https://email-server-navy.vercel.app/user/login", {
         userName: userName.current.value,
       })
       .then((res) => {
